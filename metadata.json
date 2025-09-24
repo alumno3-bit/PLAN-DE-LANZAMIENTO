@@ -1,0 +1,5 @@
+{
+  "name": "Sabor Scout Launch Plan",
+  "description": "An interactive dashboard to visualize the week-long launch plan for the 'Sabor Scout' project. Users can navigate through each day to see technical and marketing tasks, with a dynamic chart showing the daily focus.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,71 @@
+
+<div class="container mx-auto px-4 py-8 md:py-12">
+    <header class="text-center mb-8 md:mb-12">
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-amber-800">Plan de Lanzamiento</h1>
+        <h2 class="text-2xl md:text-3xl font-display text-amber-600">Sabor Scout</h2>
+        <p class="mt-4 max-w-3xl mx-auto text-amber-900/80">
+            Bienvenido al panel interactivo del plan de lanzamiento de Sabor Scout. Navega por los días de la semana para explorar los objetivos y tareas clave. El gráfico se actualizará para mostrar el enfoque de cada día.
+        </p>
+    </header>
+
+    <nav class="mb-8">
+        <div class="flex flex-wrap justify-center gap-2 md:gap-4">
+            @for (day of days(); track day) {
+                <button 
+                    (click)="changeDay(day)"
+                    [class]="'px-4 py-2 rounded-full font-semibold text-amber-800 bg-amber-100 hover:bg-amber-200 transition-colors duration-200 ' + (selectedDay() === day ? 'active-tab' : '')">
+                    {{ day.charAt(0).toUpperCase() + day.slice(1) }}
+                </button>
+            }
+        </div>
+    </nav>
+
+    <main class="transition-opacity duration-500 ease-in-out">
+        @if (selectedDayData(); as dayData) {
+            <div class="bg-white/50 rounded-2xl shadow-lg p-6 md:p-8 backdrop-blur-sm border border-white/30">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2">
+                        <h3 class="font-display text-3xl font-bold text-amber-700 mb-2">{{ dayData.title }}</h3>
+                        <p class="text-amber-900/90 italic mb-6">{{ dayData.objective }}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @if (dayData.technical.length > 0) {
+                                <div class="task-card rounded-xl p-6 shadow-sm">
+                                    <h4 class="font-display text-xl font-semibold text-amber-800 mb-4">Tareas Técnicas</h4>
+                                    <ul class="space-y-3 text-amber-900/80">
+                                        @for (task of dayData.technical; track $index) {
+                                            <li class="flex items-start">
+                                                <span class="mr-2 pt-1 text-amber-600">⚙️</span>
+                                                <span>{{ task }}</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            @if (dayData.marketing.length > 0) {
+                                <div class="task-card rounded-xl p-6 shadow-sm">
+                                    <h4 class="font-display text-xl font-semibold text-amber-800 mb-4">Tareas de Marketing</h4>
+                                    <ul class="space-y-3 text-amber-900/80">
+                                        @for (task of dayData.marketing; track $index) {
+                                            <li class="flex items-start">
+                                                <span class="mr-2 pt-1 text-amber-600">📣</span>
+                                                <span>{{ task }}</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                         <h4 class="font-display text-xl font-bold text-amber-700 mb-4">Foco del Día</h4>
+                        <div class="chart-container relative w-full max-w-xs mx-auto h-64 md:h-80">
+                            <canvas #taskChart id="task-chart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-amber-900/70 mt-4">Distribución de tareas entre áreas técnicas y de marketing.</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </main>
+</div>
